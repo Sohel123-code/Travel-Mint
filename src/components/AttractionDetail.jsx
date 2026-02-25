@@ -60,88 +60,89 @@ const AttractionDetail = ({ attraction, stateName, onBack }) => {
     return (
         <motion.div
             className="attraction-detail-page"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
         >
-            <button className="btn-back-to-list" onClick={onBack}>
-                <ArrowLeft size={20} />
-                Back to Attractions
-            </button>
+            <div className="detail-hero-section">
+                <button className="btn-back-floating" onClick={onBack} aria-label="Back to Attractions">
+                    <ArrowLeft size={20} />
+                </button>
+                <div className="detail-hero-image">
+                    <img src={attraction.imageUrl} alt={attraction.place} />
+                </div>
+            </div>
 
             <div className="container">
-                <div className="detail-header-section">
-                    <span className="location-tag"><MapPin size={16} /> {stateName}, India</span>
-                    <h1>{attraction.place}</h1>
-                </div>
-            </div>
-
-            <div className="detail-hero">
-                <img src={attraction.imageUrl} alt={attraction.place} />
-            </div>
-
-            <div className="container detail-container">
-                <div className="detail-main-content">
-                    <section className="info-section">
-                        <h2><Info size={24} /> About</h2>
-                        <p>{details?.short_description}</p>
-                    </section>
-
-                    <div className="quick-factors">
-                        <div className="factor-card">
-                            <Landmark size={20} />
-                            <div className="factor-text">
-                                <label>Category</label>
-                                <span>{details?.category}</span>
-                            </div>
-                        </div>
-                        <div className="factor-card">
-                            <Calendar size={20} />
-                            <div className="factor-text">
-                                <label>Best Time</label>
-                                <span>{details?.best_time_to_visit}</span>
-                            </div>
-                        </div>
-                        <div className="factor-card">
-                            <Clock size={20} />
-                            <div className="factor-text">
-                                <label>Timings</label>
-                                <span>{details?.timings}</span>
-                            </div>
-                        </div>
-                        <div className="factor-card">
-                            <Users size={20} />
-                            <div className="factor-text">
-                                <label>Ideal Duration</label>
-                                <span>{details?.ideal_visit_duration}</span>
-                            </div>
-                        </div>
-                        <div className="factor-card">
-                            <Wallet size={20} />
-                            <div className="factor-text">
-                                <label>Entry Fee</label>
-                                <span>{details?.entry_fee}</span>
-                            </div>
-                        </div>
-                        <div className="factor-card">
-                            <Wallet size={20} />
-                            <div className="factor-text">
-                                <label>Approx. Cost</label>
-                                <span>{details?.approximate_cost_per_person}</span>
-                            </div>
-                        </div>
+                <div className="detail-content-wrapper">
+                    <div className="detail-header-compact">
+                        <span className="location-tag-mini"><MapPin size={14} /> {stateName}, India</span>
+                        <h1>{attraction.place}</h1>
                     </div>
-                </div>
 
-                <div className="detail-sidebar">
-                    <div className="sidebar-card safety-card">
-                        <h3><Shield size={20} /> Safety Tips</h3>
-                        <ul>
-                            {Array.isArray(details?.safety_tips) ?
-                                details.safety_tips.map((tip, i) => <li key={i}>{tip}</li>) :
-                                <li>{details?.safety_tips}</li>
-                            }
-                        </ul>
+                    <div className="detail-main-layout">
+                        <div className="detail-main-content">
+                            <section className="info-section-compact">
+                                <p>{details?.short_description}</p>
+                            </section>
+
+                            <div className="quick-factors-grid">
+                                <div className="factor-item-compact">
+                                    <Landmark size={18} />
+                                    <div className="factor-info">
+                                        <label>Category</label>
+                                        <span>{details?.category}</span>
+                                    </div>
+                                </div>
+                                <div className="factor-item-compact">
+                                    <Calendar size={18} />
+                                    <div className="factor-info">
+                                        <label>Best Time</label>
+                                        <span>{details?.best_time_to_visit}</span>
+                                    </div>
+                                </div>
+                                <div className="factor-item-compact">
+                                    <Clock size={18} />
+                                    <div className="factor-info">
+                                        <label>Timings</label>
+                                        <span>{details?.timings}</span>
+                                    </div>
+                                </div>
+                                <div className="factor-item-compact">
+                                    <Users size={18} />
+                                    <div className="factor-info">
+                                        <label>Duration</label>
+                                        <span>{details?.ideal_visit_duration}</span>
+                                    </div>
+                                </div>
+                                <div className="factor-item-compact">
+                                    <Wallet size={18} />
+                                    <div className="factor-info">
+                                        <label>Entry Fee</label>
+                                        <span>{details?.entry_fee}</span>
+                                    </div>
+                                </div>
+                                <div className="factor-item-compact">
+                                    <Wallet size={18} />
+                                    <div className="factor-info">
+                                        <label>Approx. Cost</label>
+                                        <span>{details?.approximate_cost_per_person}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <aside className="detail-sidebar-compact">
+                            <div className="safety-card-minimal">
+                                <h3><Shield size={18} /> Safety Tips</h3>
+                                <ul>
+                                    {Array.isArray(details?.safety_tips) ?
+                                        details.safety_tips.map((tip, i) => <li key={i}>{tip}</li>) :
+                                        <li>{details?.safety_tips}</li>
+                                    }
+                                </ul>
+                            </div>
+                        </aside>
                     </div>
                 </div>
             </div>
