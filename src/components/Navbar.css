@@ -1,0 +1,100 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1.5rem 0;
+    background-color: rgba(248, 246, 242, 0.3);
+    /* Subtle backdrop for dark text */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: var(--transition-med);
+    color: var(--text);
+}
+
+.navbar.scrolled {
+    padding: 1rem 0;
+    background-color: rgba(248, 246, 242, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+    color: var(--text);
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: inherit;
+    /* Use parent color */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    transition: var(--transition-med);
+}
+
+.navbar.scrolled .logo img {
+    opacity: 1;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: inherit;
+    /* Use parent color */
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--accent);
+    transition: var(--transition-med);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.btn-contact {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent);
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 2px;
+}
+
+.btn-contact:hover {
+    background-color: #b09453;
+    /* Subtle darkening */
+    transform: translateY(-2px);
+}
