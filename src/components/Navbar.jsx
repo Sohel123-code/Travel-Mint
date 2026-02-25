@@ -3,6 +3,7 @@ import './Navbar.css';
 
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -12,6 +13,10 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const toggleMobileMenu = () => {
+        setMobileMenuOpen(!mobileMenuOpen);
+    };
+
     return (
         <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="container navbar-content">
@@ -19,10 +24,17 @@ const Navbar = () => {
                     <img src="/assests/logo.png" alt="Travel Mint" />
                     <span>Travel Mint</span>
                 </div>
-                <ul className="nav-links">
-                    <li><a href="#rajasthan">Rajasthan</a></li>
-                    <li><a href="#himachal">Himachal</a></li>
-                    <li><a href="#uttarakhand">Uttarakhand</a></li>
+
+                <div className={`nav-toggle ${mobileMenuOpen ? 'open' : ''}`} onClick={toggleMobileMenu}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>
+                    <li><a href="#rajasthan" onClick={() => setMobileMenuOpen(false)}>Rajasthan</a></li>
+                    <li><a href="#himachal" onClick={() => setMobileMenuOpen(false)}>Himachal</a></li>
+                    <li><a href="#uttarakhand" onClick={() => setMobileMenuOpen(false)}>Uttarakhand</a></li>
                     <li><button className="btn-contact">Inquire</button></li>
                 </ul>
             </div>

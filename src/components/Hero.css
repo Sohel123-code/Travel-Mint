@@ -103,8 +103,33 @@
     border-radius: 2px;
 }
 
-.btn-secondary:hover {
-    background-color: var(--white);
-    color: var(--primary);
-    transform: translateY(-5px);
+@media (max-width: 768px) {
+    .hero-content {
+        padding-top: 120px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 8vw, 3.5rem);
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        margin: 0 auto 2.5rem auto;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        max-width: 300px;
+        padding: 1rem;
+    }
 }

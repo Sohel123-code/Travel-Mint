@@ -14,7 +14,7 @@ const StateSection = ({ state, reverse }) => {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
                     <div className="image-container">
-                        <img src={state.image} alt={state.title} />
+                        <img src={state.image} alt={state.title} loading="lazy" />
                         <div className="image-overlay"></div>
                     </div>
                 </motion.div>
