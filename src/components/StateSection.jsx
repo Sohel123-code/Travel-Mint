@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import './StateSection.css';
 
-const StateSection = ({ state, reverse }) => {
+const StateSection = ({ state, reverse, onDiscoverMore }) => {
     return (
         <section id={state.id} className={`state-section ${reverse ? 'reverse' : ''}`}>
             <div className="container state-container">
@@ -29,7 +29,11 @@ const StateSection = ({ state, reverse }) => {
                     <span className="state-subtitle">{state.subtitle}</span>
                     <h2 className="state-title">{state.title}</h2>
                     <p className="state-description">{state.description}</p>
-                    <button className="btn-explore" style={{ '--hover-color': state.color }}>
+                    <button
+                        className="btn-explore"
+                        style={{ '--hover-color': state.color }}
+                        onClick={onDiscoverMore}
+                    >
                         Discover More
                     </button>
                 </motion.div>

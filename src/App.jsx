@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import StateSection from './components/StateSection';
+import StateDetail from './components/StateDetail';
 import './App.css';
 
 const ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
 function App() {
+    const [selectedState, setSelectedState] = useState(null);
     const [states, setStates] = useState([
         {
             id: 'rajasthan',
@@ -44,43 +46,50 @@ function App() {
                     states.map(async (state) => {
                         const response = await fetch(
                             `https://api.unsplash.com/search/photos?query=${encodeURIComponent(state.query)}&orientation=landscape&per_page=1`,
-                            {
-                                headers: {
-                                    Authorization: `Client-ID ${ACCESS_KEY}`
-                                }
-                            }
+                            { headers: { Authorization: `Client-ID ${ACCESS_KEY}` } }
                         );
                         const data = await response.json();
-                        if (data.results && data.results.length > 0) {
-                            return { ...state, image: data.results[0].urls.regular };
-                        }
+                        if (data.results?.length > 0) return { ...state, image: data.results[0].urls.regular };
                         return state;
                     })
                 );
                 setStates(updatedStates);
-            } catch (error) {
-                console.error("Error fetching images from Unsplash:", error);
-            }
+            } catch (error) { console.error("Unsplash error:", error); }
         };
-
-        if (ACCESS_KEY) {
-            fetchImages();
-        }
+        if (ACCESS_KEY) fetchImages();
     }, []);
+
+    const handleDiscoverMore = (id) => {
+        setSelectedState(id);
+        window.scrollTo(0, 0);
+    };
+
+    const handleHome = () => setSelectedState(null);
+
+    const currentState = states.find(s => s.id === selectedState);
 
     return (
         <div className="app">
-            <Navbar />
-            <Hero />
-            <main>
-                {states.map((state, index) => (
-                    <StateSection
-                        key={state.id}
-                        state={state}
-                        reverse={index % 2 !== 0}
-                    />
-                ))}
-            </main>
+            <Navbar onHome={handleHome} onStateClick={(id) => { setSelectedState(id); window.scrollTo(0, 0); }} />
+
+            {!selectedState ? (
+                <>
+                    <Hero />
+                    <main>
+                        {states.map((state, index) => (
+                            <StateSection
+                                key={state.id}
+                                state={state}
+                                reverse={index % 2 !== 0}
+                                onDiscoverMore={() => handleDiscoverMore(state.id)}
+                            />
+                        ))}
+                    </main>
+                </>
+            ) : (
+                <StateDetail state={currentState} onBack={handleHome} />
+            )}
+
             <footer className="footer">
                 <div className="container">
                     <p>&copy; 2024 Travel Mint. All rights reserved.</p>
