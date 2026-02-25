@@ -7,7 +7,7 @@ import './TopAttractions.css';
 
 const UNSPLASH_ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY2;
 
-const TopAttractions = ({ stateId, stateName }) => {
+const TopAttractions = ({ stateId, stateName, onAttractionClick }) => {
     const [attractions, setAttractions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -17,7 +17,11 @@ const TopAttractions = ({ stateId, stateName }) => {
             setLoading(true);
             try {
                 // 1. Fetch from Supabase
-                const tableName = stateId.toLowerCase();
+                let tableName = stateId.toLowerCase();
+                if (stateName === "Rajasthan") {
+                    tableName = "rajasthan_tourism";
+                }
+
                 let { data, error: sbError } = await supabase
                     .from(tableName)
                     .select('*');
@@ -36,33 +40,65 @@ const TopAttractions = ({ stateId, stateName }) => {
                     return;
                 }
 
+                // Rajasthan Images Mapping (from assets/rajasthan)
+                const rajasthanImages = {
+                    "Ajmer Sharif Dargah": "/assets/rajasthan/Ajmer Sharif Dargah.jpg",
+                    "Amber Fort": "/assets/rajasthan/Amber Fort.avif",
+                    "Bundi Palace": "/assets/rajasthan/Bundi Palace.jpg",
+                    "Chittorgarh Fort": "/assets/rajasthan/Chittorgarh Fort.avif",
+                    "City Palace Jaipur": "/assets/rajasthan/City Palace Jaipur.jpg",
+                    "Dilwara Temples": "/assets/rajasthan/Dilwara Temples.jpg",
+                    "Hawa Mahal": "/assets/rajasthan/Hawa Mahal.jpg",
+                    "Jaisalmer Fort": "/assets/rajasthan/Jaisalmer Fort.jpg",
+                    "Junagarh Fort": "/assets/rajasthan/Junagarh Fort.jpg",
+                    "Kumbhalgarh Fort": "/assets/rajasthan/Kumbhalgarh Fort.jpg",
+                    "Lake Pichola": "/assets/rajasthan/Lake Pichola.jpg",
+                    "Mandawa Fort": "/assets/rajasthan/Mandawa Fort.jpg",
+                    "Mehrangarh Fort": "/assets/rajasthan/Mehrangarh Fort.webp",
+                    "Nakki Lake": "/assets/rajasthan/Nakki Lake.avif",
+                    "Pushkar Lake": "/assets/rajasthan/Pushkar Lake.jpg",
+                    "Ranakpur Jain Temple": "/assets/rajasthan/Ranakpur Jain Temple.jpg",
+                    "Ranthambore National Park": "/assets/rajasthan/Ranthambore National Park.jpg",
+                    "Sam Sand Dunes": "/assets/rajasthan/Sam Sand Dunes.jpeg",
+                    "Sariska Tiger Reserve": "/assets/rajasthan/Sariska Tiger Reserve.jpg",
+                    "Umaid Bhawan Palace": "/assets/rajasthan/Umaid Bhawan Palace.jpg"
+                };
+
                 // 2. Fetch images and descriptions for each place
-                const enrichedData = await Promise.all(data.slice(0, 6).map(async (item) => {
-                    const place = item.place || item.name;
+                const enrichedData = await Promise.all(data.map(async (item) => {
+                    const place = item.Top_Attractions || item.place || item.name || "Unknown Location";
+                    const normalizedPlace = place.trim();
 
-                    // Fetch Image from Unsplash
                     let imageUrl = 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1000&auto=format&fit=crop';
-                    try {
-                        const searchQuery = `${place} ${stateName} landmark travel photography architecture`;
-                        const imgRes = await fetch(
-                            `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=1&orientation=squarish`,
-                            { headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` } }
-                        );
-                        const imgData = await imgRes.json();
-                        if (imgData.results?.length > 0) imageUrl = imgData.results[0].urls.regular;
-                    } catch (e) { console.error("Unsplash error:", e); }
+                    if (stateName === "Rajasthan" && rajasthanImages[normalizedPlace]) {
+                        imageUrl = rajasthanImages[normalizedPlace];
+                    } else {
+                        try {
+                            const searchQuery = `${normalizedPlace} ${stateName} landmark landscape`;
+                            const imgRes = await fetch(
+                                `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=1&orientation=landscape`,
+                                { headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` } }
+                            );
+                            const imgData = await imgRes.json();
+                            if (imgData.results?.length > 0) {
+                                // Request high quality regular size with specific width
+                                imageUrl = `${imgData.results[0].urls.regular}&auto=format&fit=crop&q=85&w=800`;
+                            }
+                        } catch (e) { console.error("Unsplash error:", e); }
+                    }
 
-                    // Generate Description from Groq
-                    let description = "Discover the unique charm and history of this remarkable destination.";
-                    try {
-                        const completion = await groq.chat.completions.create({
-                            messages: [{ role: "user", content: `Write a compelling 20-word travel description for ${place} in ${stateName}, India. Focus on its uniqueness.` }],
-                            model: "llama-3.3-70b-versatile",
-                        });
-                        description = completion.choices[0]?.message?.content || description;
-                    } catch (e) { console.error("Groq error:", e); }
+                    let description = item.description || "Discover the unique charm and history of this remarkable destination.";
+                    if (!item.description) {
+                        try {
+                            const completion = await groq.chat.completions.create({
+                                messages: [{ role: "user", content: `Write a compelling 20-word travel description for ${normalizedPlace} in ${stateName}, India. Focus on its uniqueness.` }],
+                                model: "llama-3.3-70b-versatile",
+                            });
+                            description = completion.choices[0]?.message?.content || description;
+                        } catch (e) { console.error("Groq error:", e); }
+                    }
 
-                    return { ...item, imageUrl, description, place };
+                    return { ...item, imageUrl, description, place: normalizedPlace };
                 }));
 
                 setAttractions(enrichedData);
@@ -90,7 +126,8 @@ const TopAttractions = ({ stateId, stateName }) => {
                         className="attraction-card"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
+                        transition={{ delay: idx * 0.05 }}
+                        onClick={() => onAttractionClick(attr)}
                     >
                         <div className="attraction-image-container">
                             <img src={attr.imageUrl} alt={attr.place} />

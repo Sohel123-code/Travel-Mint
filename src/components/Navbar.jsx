@@ -27,7 +27,7 @@ const Navbar = ({ onHome, onStateClick }) => {
         <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
             <div className="container navbar-content">
                 <div className="logo" onClick={onHome} style={{ cursor: 'pointer' }}>
-                    <img src="/assests/logo.png" alt="Travel Mint" />
+                    <img src="/assets/logo.png" alt="Travel Mint" />
                     <span>Travel Mint</span>
                 </div>
 
