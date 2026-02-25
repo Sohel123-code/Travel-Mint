@@ -82,13 +82,11 @@ const StateDetail = ({ state, onBack }) => {
     return (
         <div className="state-detail">
             {selectedAttraction ? (
-                <div className="container">
-                    <AttractionDetail
-                        attraction={selectedAttraction}
-                        stateName={state.title}
-                        onBack={handleBackToList}
-                    />
-                </div>
+                <AttractionDetail
+                    attraction={selectedAttraction}
+                    stateName={state.title}
+                    onBack={handleBackToList}
+                />
             ) : (
                 <>
                     <header className="detail-header" style={{ '--accent': state.color }}>

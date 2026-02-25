@@ -1,224 +1,257 @@
+/* =============================================
+   ATTRACTION DETAIL — Mobile-First, Full Layout
+   ============================================= */
+
 .attraction-detail-page {
-    background: #f8fafc;
     min-height: 100vh;
+    background: #f8f9fa;
+    padding-top: 80px;
+    /* Navbar offset */
     padding-bottom: 2rem;
-    color: var(--primary);
 }
 
-/* Floating Back Button */
-.btn-back-floating {
-    position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    z-index: 10;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+/* Single unified column — controls ALL widths */
+.attraction-detail-inner {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+    /* Minimal side padding on mobile */
     display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ─── Back Button ─── */
+.btn-back-floating {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 6px;
+    margin-bottom: 1rem;
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    transition: all 0.2s ease;
+    align-self: flex-start;
+    /* Don't stretch full width */
 }
 
 .btn-back-floating:hover {
-    background: white;
-    transform: scale(1.05);
+    background: #f1f5f9;
+    transform: translateX(-2px);
 }
 
-/* Hero Section */
-.detail-hero-section {
-    position: relative;
-    width: 100%;
-}
-
+/* ─── Hero Image ───
+   Same max-width as card, full height to show image completely */
 .detail-hero-image {
     width: 100%;
-    height: 400px;
+    border-radius: 20px;
     overflow: hidden;
+    background: #e2e8f0;
+    margin-bottom: 12px;
+    /* Important: height auto so image is never clipped */
+    line-height: 0;
 }
 
 .detail-hero-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Content Wrapper Styling */
-.detail-content-wrapper {
-    background: white;
-    border-radius: 24px;
-    padding: 2rem;
-    margin-top: -3rem;
-    /* Layering effect */
-    position: relative;
-    z-index: 5;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.04);
-}
-
-/* Header & Typography */
-.detail-header-compact {
-    margin-bottom: 1.5rem;
-}
-
-.location-tag-mini {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.85rem;
-    color: var(--accent, #C6A75E);
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.detail-header-compact h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 0;
-    line-height: 1.1;
-    letter-spacing: -1px;
-}
-
-/* Main Flow */
-.info-section-compact p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-light, #64748b);
-    margin-bottom: 2rem;
-}
-
-/* Quick Factors Grid */
-.quick-factors-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.factor-item-compact {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 1rem;
-    background: #fdfdfd;
-    border: 1px solid #f1f5f9;
-    border-radius: 16px;
-    transition: all 0.3s ease;
-}
-
-.factor-item-compact svg {
-    color: var(--accent, #C6A75E);
-    flex-shrink: 0;
-}
-
-.factor-info label {
+    height: auto;
+    /* Preserve full image height */
+    max-height: 70vh;
+    /* Never taller than 70% of screen */
+    object-fit: contain;
+    /* Show full image — no cropping */
     display: block;
-    font-size: 0.7rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
+    background: #e2e8f0;
 }
 
-.factor-info span {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: var(--primary);
-}
-
-/* Sidebar / Safety */
-.detail-sidebar-compact {
-    margin-top: 1rem;
-}
-
-.safety-card-minimal {
-    padding: 1.5rem;
-    background: #f8fafc;
+/* ─── Content Card ─── */
+.detail-content-card {
+    background: white;
     border-radius: 20px;
-    border: 1px dashed #e2e8f0;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
-.safety-card-minimal h3 {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    font-size: 1.1rem;
-    font-weight: 700;
+/* ─── Header ─── */
+.detail-header {
     margin-bottom: 1rem;
 }
 
-.safety-card-minimal ul {
-    list-style: none;
-    padding: 0;
+.location-tag-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #C6A75E;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.detail-header h1 {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #0f172a;
     margin: 0;
 }
 
-.safety-card-minimal li {
-    font-size: 0.9rem;
-    color: #64748b;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
+/* ─── Description ─── */
+.detail-description {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #475569;
+    margin-bottom: 1.5rem;
+}
+
+/* ─── Info Grid (2 columns) ─── */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.info-chip {
     display: flex;
-    gap: 0.5rem;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 12px;
+    background: #f8fafc;
+    border: 1px solid #e8edf3;
+    border-radius: 14px;
 }
 
-.safety-card-minimal li::before {
-    content: "•";
-    color: var(--accent, #C6A75E);
-    font-weight: 900;
+.info-chip svg {
+    color: #C6A75E;
+    flex-shrink: 0;
+    margin-top: 2px;
 }
 
-/* Responsive Overrides */
-@media (min-width: 1024px) {
-    .detail-main-layout {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 3rem;
-        align-items: start;
-    }
-
-    .detail-hero-image {
-        height: 500px;
-    }
+.info-chip div {
+    min-width: 0;
 }
 
-@media (max-width: 768px) {
-    .detail-content-wrapper {
-        margin-top: -2rem;
-        padding: 1.5rem 1rem;
-    }
-
-    .detail-header-compact h1 {
-        font-size: 1.8rem;
-    }
-
-    .detail-hero-image {
-        height: 300px;
-    }
-
-    .quick-factors-grid {
-        gap: 0.75rem;
-    }
-
-    .factor-item-compact {
-        padding: 0.75rem;
-    }
+.info-chip label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
 }
 
-/* Loading State */
+.info-chip span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+    display: block;
+    word-break: break-word;
+    line-height: 1.3;
+}
+
+/* ─── Safety Section ─── */
+.safety-section {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 1rem;
+}
+
+.safety-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #166534;
+    margin-bottom: 10px;
+}
+
+.safety-section h3 svg {
+    color: #22c55e;
+}
+
+.safety-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.safety-section li {
+    font-size: 14px;
+    color: #15803d;
+    line-height: 1.5;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.safety-section li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+/* ─── Loading State ─── */
 .attraction-detail-loading {
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 50vh;
-    gap: 1.5rem;
+    gap: 1rem;
     color: #64748b;
+    font-size: 15px;
+    padding-top: 80px;
+}
+
+.attraction-detail-loading svg {
+    color: #C6A75E;
+}
+
+/* ─── Desktop Enhancements ─── */
+@media (min-width: 768px) {
+    .attraction-detail-inner {
+        padding: 0 1.5rem;
+    }
+
+    .detail-header h1 {
+        font-size: 36px;
+    }
+
+    .detail-description {
+        font-size: 17px;
+    }
+
+    .info-chip span {
+        font-size: 15px;
+    }
+
+    .detail-hero-image img {
+        max-height: 500px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .detail-hero-image img {
+        max-height: 600px;
+    }
+
+    .detail-header h1 {
+        font-size: 42px;
+    }
 }

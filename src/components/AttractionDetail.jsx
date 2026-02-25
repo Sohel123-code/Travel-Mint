@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Clock, Info, Calendar, Wallet, Shield, Users, Landmark, MapPin, Loader2 } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Wallet, Shield, Users, Landmark, MapPin, Loader2 } from 'lucide-react';
 import { groq } from '../utils/groqClient';
 import './AttractionDetail.css';
 
@@ -26,7 +26,6 @@ const AttractionDetail = ({ attraction, stateName, onBack }) => {
                 setDetails(result);
             } catch (e) {
                 console.error("Groq details error:", e);
-                // Fallback
                 setDetails({
                     name: attraction.place,
                     short_description: attraction.description,
@@ -64,86 +63,90 @@ const AttractionDetail = ({ attraction, stateName, onBack }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
         >
-            <div className="detail-hero-section">
+            <div className="attraction-detail-inner">
+
+                {/* Back Button */}
                 <button className="btn-back-floating" onClick={onBack} aria-label="Back to Attractions">
                     <ArrowLeft size={20} />
+                    <span>Back</span>
                 </button>
+
+                {/* Hero Image — same width as card */}
                 <div className="detail-hero-image">
                     <img src={attraction.imageUrl} alt={attraction.place} />
                 </div>
-            </div>
 
-            <div className="container">
-                <div className="detail-content-wrapper">
-                    <div className="detail-header-compact">
-                        <span className="location-tag-mini"><MapPin size={14} /> {stateName}, India</span>
+                {/* Content Card */}
+                <div className="detail-content-card">
+
+                    {/* Header */}
+                    <div className="detail-header">
+                        <span className="location-tag-mini">
+                            <MapPin size={13} /> {stateName}, India
+                        </span>
                         <h1>{attraction.place}</h1>
                     </div>
 
-                    <div className="detail-main-layout">
-                        <div className="detail-main-content">
-                            <section className="info-section-compact">
-                                <p>{details?.short_description}</p>
-                            </section>
+                    {/* Description */}
+                    <p className="detail-description">{details?.short_description}</p>
 
-                            <div className="quick-factors-grid">
-                                <div className="factor-item-compact">
-                                    <Landmark size={18} />
-                                    <div className="factor-info">
-                                        <label>Category</label>
-                                        <span>{details?.category}</span>
-                                    </div>
-                                </div>
-                                <div className="factor-item-compact">
-                                    <Calendar size={18} />
-                                    <div className="factor-info">
-                                        <label>Best Time</label>
-                                        <span>{details?.best_time_to_visit}</span>
-                                    </div>
-                                </div>
-                                <div className="factor-item-compact">
-                                    <Clock size={18} />
-                                    <div className="factor-info">
-                                        <label>Timings</label>
-                                        <span>{details?.timings}</span>
-                                    </div>
-                                </div>
-                                <div className="factor-item-compact">
-                                    <Users size={18} />
-                                    <div className="factor-info">
-                                        <label>Duration</label>
-                                        <span>{details?.ideal_visit_duration}</span>
-                                    </div>
-                                </div>
-                                <div className="factor-item-compact">
-                                    <Wallet size={18} />
-                                    <div className="factor-info">
-                                        <label>Entry Fee</label>
-                                        <span>{details?.entry_fee}</span>
-                                    </div>
-                                </div>
-                                <div className="factor-item-compact">
-                                    <Wallet size={18} />
-                                    <div className="factor-info">
-                                        <label>Approx. Cost</label>
-                                        <span>{details?.approximate_cost_per_person}</span>
-                                    </div>
-                                </div>
+                    {/* Info Grid */}
+                    <div className="info-grid">
+                        <div className="info-chip">
+                            <Landmark size={18} />
+                            <div>
+                                <label>Category</label>
+                                <span>{details?.category}</span>
                             </div>
                         </div>
-
-                        <aside className="detail-sidebar-compact">
-                            <div className="safety-card-minimal">
-                                <h3><Shield size={18} /> Safety Tips</h3>
-                                <ul>
-                                    {Array.isArray(details?.safety_tips) ?
-                                        details.safety_tips.map((tip, i) => <li key={i}>{tip}</li>) :
-                                        <li>{details?.safety_tips}</li>
-                                    }
-                                </ul>
+                        <div className="info-chip">
+                            <Calendar size={18} />
+                            <div>
+                                <label>Best Time</label>
+                                <span>{details?.best_time_to_visit}</span>
                             </div>
-                        </aside>
+                        </div>
+                        <div className="info-chip">
+                            <Clock size={18} />
+                            <div>
+                                <label>Timings</label>
+                                <span>{details?.timings}</span>
+                            </div>
+                        </div>
+                        <div className="info-chip">
+                            <Users size={18} />
+                            <div>
+                                <label>Duration</label>
+                                <span>{details?.ideal_visit_duration}</span>
+                            </div>
+                        </div>
+                        <div className="info-chip">
+                            <Wallet size={18} />
+                            <div>
+                                <label>Entry Fee</label>
+                                <span>{details?.entry_fee}</span>
+                            </div>
+                        </div>
+                        <div className="info-chip">
+                            <Wallet size={18} />
+                            <div>
+                                <label>Approx. Cost</label>
+                                <span>{details?.approximate_cost_per_person}</span>
+                            </div>
+                        </div>
                     </div>
+
+                    {/* Safety Tips */}
+                    <div className="safety-section">
+                        <h3><Shield size={16} /> Safety Tips</h3>
+                        <ul>
+                            {Array.isArray(details?.safety_tips)
+                                ? details.safety_tips.map((tip, i) => <li key={i}>{tip}</li>)
+                                : <li>{details?.safety_tips}</li>
+                            }
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </motion.div>
