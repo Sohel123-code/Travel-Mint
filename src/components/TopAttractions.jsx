@@ -20,6 +20,8 @@ const TopAttractions = ({ stateId, stateName, onAttractionClick }) => {
                 let tableName = stateId.toLowerCase();
                 if (stateName === "Rajasthan") {
                     tableName = "rajasthan_tourism";
+                } else if (stateName === "Himachal Pradesh") {
+                    tableName = "himachal_pradesh_tourism";
                 }
 
                 let { data, error: sbError } = await supabase
@@ -64,6 +66,30 @@ const TopAttractions = ({ stateId, stateName, onAttractionClick }) => {
                     "Umaid Bhawan Palace": "/assets/rajasthan/Umaid Bhawan Palace.jpg"
                 };
 
+                // Himachal Pradesh local images
+                const himachalImages = {
+                    "Bir Billing": "/assets/himachal/Bir Billing.jpeg",
+                    "Chail Palace": "/assets/himachal/Chail Palace.jpg",
+                    "Dal Lake Dharamshala": "/assets/himachal/Dal Lake Dharamshala.jpg",
+                    "Hadimba Temple": "/assets/himachal/Hadimba Temple.jpg",
+                    "Jakhoo Temple": "/assets/himachal/Jakhoo Temple.jpg",
+                    "Kasauli": "/assets/himachal/Kasauli.jpg",
+                    "Kasol": "/assets/himachal/Kasol.jpg",
+                    "Khajjiar": "/assets/himachal/Khajjiar.jpg",
+                    "Kullu Valley": "/assets/himachal/Kullu Valley.jpg",
+                    "Mall Road Shimla": "/assets/himachal/Mall Road Shimla.jpg",
+                    "Manikaran Sahib": "/assets/himachal/Manikaran Sahib.jpg",
+                    "McLeodganj": "/assets/himachal/McLeodganj.jpg",
+                    "Narkanda": "/assets/himachal/Narkanda.avif",
+                    "Palampur": "/assets/himachal/Palampur.jpg",
+                    "Rohtang Pass": "/assets/himachal/Rohtang Pass.jpg",
+                    "Sangla Valley": "/assets/himachal/Sangla Valley.jpg",
+                    "Solang Valley": "/assets/himachal/Solang Valley.jpg",
+                    "Spiti Valley": "/assets/himachal/Spiti Valley.jpg",
+                    "Tirthan Valley": "/assets/himachal/Tirthan Valley.jpg",
+                    "Triund Trek": "/assets/himachal/Triund Trek.avif",
+                };
+
                 // 2. Fetch images and descriptions for each place
                 const enrichedData = await Promise.all(data.map(async (item) => {
                     const place = item.Top_Attractions || item.place || item.name || "Unknown Location";
@@ -72,6 +98,8 @@ const TopAttractions = ({ stateId, stateName, onAttractionClick }) => {
                     let imageUrl = 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1000&auto=format&fit=crop';
                     if (stateName === "Rajasthan" && rajasthanImages[normalizedPlace]) {
                         imageUrl = rajasthanImages[normalizedPlace];
+                    } else if (stateName === "Himachal Pradesh" && himachalImages[normalizedPlace]) {
+                        imageUrl = himachalImages[normalizedPlace];
                     } else {
                         try {
                             const searchQuery = `${normalizedPlace} ${stateName} landmark landscape`;
