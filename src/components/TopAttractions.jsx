@@ -22,6 +22,8 @@ const TopAttractions = ({ stateId, stateName, onAttractionClick }) => {
                     tableName = "rajasthan_tourism";
                 } else if (stateName === "Himachal Pradesh") {
                     tableName = "himachal_pradesh_tourism";
+                } else if (stateName === "Uttarakhand") {
+                    tableName = "uttarakhand_tourism";
                 }
 
                 let { data, error: sbError } = await supabase
@@ -90,6 +92,30 @@ const TopAttractions = ({ stateId, stateName, onAttractionClick }) => {
                     "Triund Trek": "/assets/himachal/Triund Trek.avif",
                 };
 
+                // Uttarakhand local images
+                const uttarakhandImages = {
+                    "Almora": "/assets/uttarakand/Almora.jpg",
+                    "Auli Ski Resort": "/assets/uttarakand/Auli Ski Resort.jpg",
+                    "Badrinath Temple": "/assets/uttarakand/Badrinath Temple.jpg",
+                    "Bhimtal Lake": "/assets/uttarakand/Bhimtal Lake.cms",
+                    "Chopta": "/assets/uttarakand/Chopta.jpg",
+                    "Gangotri Temple": "/assets/uttarakand/Gangotri Temple.jpg",
+                    "Har Ki Pauri": "/assets/uttarakand/Har Ki Pauri.jpg",
+                    "Harsil Valley": "/assets/uttarakand/Harsil Valley.webp",
+                    "Jim Corbett National Park": "/assets/uttarakand/Jim Corbett National Park.jpg",
+                    "Kedarnath Temple": "/assets/uttarakand/Kedarnath Temple.jpg",
+                    "Kempty Falls": "/assets/uttarakand/Kempty Falls.jpg",
+                    "Laxman Jhula": "/assets/uttarakand/Laxman Jhula.jpg",
+                    "Mukteshwar": "/assets/uttarakand/Mukteshwar.cms",
+                    "Munsiyari": "/assets/uttarakand/Munsiyari.cms",
+                    "Naini Lake": "/assets/uttarakand/Naini Lake.jpg",
+                    "Pithoragarh": "/assets/uttarakand/Pithoragarh.jpg",
+                    "Ranikhet": "/assets/uttarakand/Ranikhet.jpg",
+                    "Tehri Lake": "/assets/uttarakand/Tehri Lake.jpg",
+                    "Valley of Flowers": "/assets/uttarakand/Valley of Flowers.jpg",
+                    "Yamunotri Temple": "/assets/uttarakand/Yamunotri Temple.webp",
+                };
+
                 // 2. Fetch images and descriptions for each place
                 const enrichedData = await Promise.all(data.map(async (item) => {
                     const place = item.Top_Attractions || item.place || item.name || "Unknown Location";
@@ -100,6 +126,8 @@ const TopAttractions = ({ stateId, stateName, onAttractionClick }) => {
                         imageUrl = rajasthanImages[normalizedPlace];
                     } else if (stateName === "Himachal Pradesh" && himachalImages[normalizedPlace]) {
                         imageUrl = himachalImages[normalizedPlace];
+                    } else if (stateName === "Uttarakhand" && uttarakhandImages[normalizedPlace]) {
+                        imageUrl = uttarakhandImages[normalizedPlace];
                     } else {
                         try {
                             const searchQuery = `${normalizedPlace} ${stateName} landmark landscape`;
