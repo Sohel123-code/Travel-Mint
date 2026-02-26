@@ -3,12 +3,16 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import StateSection from './components/StateSection';
 import StateDetail from './components/StateDetail';
+import RoutesAndFares from './components/RoutesAndFares';
+import SearchPlatform from './components/SearchPlatform';
 import './App.css';
 
 const ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
 
 function App() {
     const [selectedState, setSelectedState] = useState(null);
+    const [showSearchPlatform, setShowSearchPlatform] = useState(false);
+    const [searchMode, setSearchMode] = useState('flight');
     const [states, setStates] = useState([
         {
             id: 'rajasthan',
@@ -64,15 +68,34 @@ function App() {
         window.scrollTo(0, 0);
     };
 
-    const handleHome = () => setSelectedState(null);
+    const handleHome = () => { setSelectedState(null); setShowSearchPlatform(false); };
+
+    const handleOpenSearch = (mode) => {
+        setSearchMode(mode || 'flight');
+        setShowSearchPlatform(true);
+        window.scrollTo(0, 0);
+    };
+
+    const handleBackFromSearch = () => {
+        setShowSearchPlatform(false);
+        window.scrollTo(0, 0);
+    };
 
     const currentState = states.find(s => s.id === selectedState);
 
     return (
         <div className="app">
-            <Navbar onHome={handleHome} onStateClick={(id) => { setSelectedState(id); window.scrollTo(0, 0); }} />
+            {!showSearchPlatform && (
+                <Navbar
+                    onHome={handleHome}
+                    onStateClick={(id) => { setSelectedState(id); setShowSearchPlatform(false); window.scrollTo(0, 0); }}
+                    onFaresClick={handleOpenSearch}
+                />
+            )}
 
-            {!selectedState ? (
+            {showSearchPlatform ? (
+                <SearchPlatform initialMode={searchMode} onBack={handleBackFromSearch} />
+            ) : !selectedState ? (
                 <>
                     <Hero />
                     <main>
@@ -85,16 +108,19 @@ function App() {
                             />
                         ))}
                     </main>
+                    <RoutesAndFares onOpenSearch={handleOpenSearch} />
                 </>
             ) : (
                 <StateDetail state={currentState} onBack={handleHome} />
             )}
 
-            <footer className="footer">
-                <div className="container">
-                    <p>&copy; 2024 Travel Mint. All rights reserved.</p>
-                </div>
-            </footer>
+            {!showSearchPlatform && (
+                <footer className="footer">
+                    <div className="container">
+                        <p>&copy; 2024 Travel Mint. All rights reserved.</p>
+                    </div>
+                </footer>
+            )}
         </div>
     );
 }

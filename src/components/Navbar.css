@@ -98,6 +98,15 @@
     transform: translateY(-2px);
 }
 
+.nav-fares-link {
+    color: var(--accent) !important;
+    font-weight: 700 !important;
+}
+
+.nav-fares-link::after {
+    background-color: var(--accent) !important;
+}
+
 /* Mobile Toggle */
 .nav-toggle {
     display: none;

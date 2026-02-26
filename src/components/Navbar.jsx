@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 
-const Navbar = ({ onHome, onStateClick }) => {
+const Navbar = ({ onHome, onStateClick, onFaresClick }) => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -42,6 +42,7 @@ const Navbar = ({ onHome, onStateClick }) => {
                     <li><a href="#rajasthan" onClick={(e) => handleNavClick(e, 'rajasthan')}>Rajasthan</a></li>
                     <li><a href="#himachal" onClick={(e) => handleNavClick(e, 'himachal')}>Himachal</a></li>
                     <li><a href="#uttarakhand" onClick={(e) => handleNavClick(e, 'uttarakhand')}>Uttarakhand</a></li>
+                    <li><a href="#routes-fares" onClick={(e) => { e.preventDefault(); onFaresClick && onFaresClick('flight'); setMobileMenuOpen(false); }} className="nav-fares-link">✈ Fares &amp; Routes</a></li>
                     <li><button className="btn-contact">Inquire</button></li>
                 </ul>
             </div>
