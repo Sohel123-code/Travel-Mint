@@ -74,6 +74,9 @@ function App() {
             <Sidebar
                 open={sidebarOpen}
                 onClose={() => setSidebarOpen(false)}
+                onHome={goHome}
+                onStateClick={openState}
+                onFaresClick={openSearch}
                 onTravelSafeClick={openTravelSafe}
             />
 

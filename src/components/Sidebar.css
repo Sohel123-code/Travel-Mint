@@ -214,6 +214,54 @@
     color: #93c5fd;
 }
 
+/* ── Mobile nav-links section (only shown on mobile ≤768px) ── */
+.sb-nav-links {
+    display: none;
+    /* hidden on desktop — nav-links are in the Navbar */
+    flex-direction: column;
+    padding: 0 0 0.5rem;
+    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 0.5rem;
+}
+
+.sb-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    padding: 0.7rem 1.2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 0;
+    color: var(--primary);
+    transition: background 0.15s;
+}
+
+.sb-nav-item:hover {
+    background: #f9fafb;
+}
+
+.sb-nav-item--accent {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.sb-nav-item-icon {
+    font-size: 1rem;
+    width: 22px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.sb-nav-item-label {
+    flex: 1;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
 /* ── Footer ── */
 .sb-footer {
     border-top: 1px solid #f3f4f6;
@@ -228,6 +276,14 @@
 }
 
 /* ── Mobile ── */
+@media (max-width: 768px) {
+
+    /* Show nav links inside sidebar on mobile */
+    .sb-nav-links {
+        display: flex;
+    }
+}
+
 @media (max-width: 480px) {
     .sb-drawer {
         width: 100vw;

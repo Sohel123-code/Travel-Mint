@@ -131,6 +131,7 @@
 .navbar.scrolled .btn-tools:hover {
     background: rgba(0, 0, 0, 0.08);
 }
+
 .nav-fares-link {
     color: var(--accent) !important;
     font-weight: 700 !important;
@@ -218,34 +219,14 @@
         padding: 1rem 0;
     }
 
-    .nav-toggle {
-        display: flex;
-    }
-
+    /* Hide desktop nav links — they move into the Sidebar on mobile */
     .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
-        background-color: var(--white);
-        flex-direction: column;
-        justify-content: center;
-        gap: 2rem;
-        transition: 0.4s ease;
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        padding: 2rem;
+        display: none;
     }
 
-    .nav-links.active {
-        right: 0;
-    }
-
-    .nav-links a {
-        font-size: 1.2rem;
-        color: var(--primary);
+    /* nav-toggle is no longer used; keep hidden just in case */
+    .nav-toggle {
+        display: none;
     }
 
     .logo img {
@@ -254,10 +235,5 @@
 
     .logo span {
         font-size: 1rem;
-    }
-
-    /* Show translator link only in mobile sidebar */
-    .nav-translator-item {
-        display: flex;
     }
 }
