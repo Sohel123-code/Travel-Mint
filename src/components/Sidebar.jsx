@@ -29,8 +29,18 @@ const MODULES = [
             </svg>
         ),
     },
-    // ── Add future modules below ─────────────────────────────────────────
-    // { id: 'itinerary', label: 'Trip Planner', desc: 'Plan your itinerary', accentColor: '#2563eb', icon: <svg>...</svg> },
+    {
+        id: 'plan-my-trip',
+        label: 'Plan My Trip',
+        desc: 'Generate a personalised trip plan',
+        accentColor: '#2563eb',
+        icon: (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+        ),
+    },
 ];
 
 /**
@@ -46,7 +56,7 @@ const MODULES = [
  *   onTravelSafeClick (fn)   - open Travel Safe full page
  *   onTripMintClick (fn)     - open TripMint chatbot full page
  */
-const Sidebar = ({ open, onClose, onHome, onStateClick, onFaresClick, onTravelSafeClick, onTripMintClick }) => {
+const Sidebar = ({ open, onClose, onHome, onStateClick, onFaresClick, onTravelSafeClick, onTripMintClick, onPlanMyTripClick }) => {
     const handleNav = (fn) => {
         onClose();
         fn?.();
@@ -56,6 +66,7 @@ const Sidebar = ({ open, onClose, onHome, onStateClick, onFaresClick, onTravelSa
         onClose();
         if (moduleId === 'travel-safe') onTravelSafeClick?.();
         if (moduleId === 'trip-mint') onTripMintClick?.();
+        if (moduleId === 'plan-my-trip') onPlanMyTripClick?.();
     };
 
     return (

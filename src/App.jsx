@@ -8,6 +8,7 @@ import SearchPlatform from './components/SearchPlatform';
 import Sidebar from './components/Sidebar';
 import TravelSafe from './components/TravelSafe';
 import TripMint from './components/TripMint';
+import PlanMyTrip from './components/PlanMyTrip';
 import './App.css';
 
 const ACCESS_KEY = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
@@ -17,6 +18,7 @@ function App() {
     const [showSearchPlatform, setShowSearchPlatform] = useState(false);
     const [showTravelSafe, setShowTravelSafe] = useState(false);
     const [showTripMint, setShowTripMint] = useState(false);
+    const [showPlanMyTrip, setShowPlanMyTrip] = useState(false);
     const [searchMode, setSearchMode] = useState('flight');
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -61,14 +63,15 @@ function App() {
     }, []);
 
     /* ── Navigation ── */
-    const goHome = () => { setSelectedState(null); setShowSearchPlatform(false); setShowTravelSafe(false); setShowTripMint(false); };
-    const openSearch = (mode) => { setSearchMode(mode || 'flight'); setShowSearchPlatform(true); setShowTravelSafe(false); setShowTripMint(false); window.scrollTo(0, 0); };
-    const openState = (id) => { setSelectedState(id); setShowSearchPlatform(false); setShowTravelSafe(false); setShowTripMint(false); window.scrollTo(0, 0); };
-    const openTravelSafe = () => { setShowTravelSafe(true); setShowSearchPlatform(false); setShowTripMint(false); setSidebarOpen(false); window.scrollTo(0, 0); };
-    const openTripMint = () => { setShowTripMint(true); setShowSearchPlatform(false); setShowTravelSafe(false); setSidebarOpen(false); window.scrollTo(0, 0); };
+    const goHome = () => { setSelectedState(null); setShowSearchPlatform(false); setShowTravelSafe(false); setShowTripMint(false); setShowPlanMyTrip(false); };
+    const openSearch = (mode) => { setSearchMode(mode || 'flight'); setShowSearchPlatform(true); setShowTravelSafe(false); setShowTripMint(false); setShowPlanMyTrip(false); window.scrollTo(0, 0); };
+    const openState = (id) => { setSelectedState(id); setShowSearchPlatform(false); setShowTravelSafe(false); setShowTripMint(false); setShowPlanMyTrip(false); window.scrollTo(0, 0); };
+    const openTravelSafe = () => { setShowTravelSafe(true); setShowSearchPlatform(false); setShowTripMint(false); setShowPlanMyTrip(false); setSidebarOpen(false); window.scrollTo(0, 0); };
+    const openTripMint = () => { setShowTripMint(true); setShowSearchPlatform(false); setShowTravelSafe(false); setShowPlanMyTrip(false); setSidebarOpen(false); window.scrollTo(0, 0); };
+    const openPlanMyTrip = () => { setShowPlanMyTrip(true); setShowSearchPlatform(false); setShowTravelSafe(false); setShowTripMint(false); setSidebarOpen(false); window.scrollTo(0, 0); };
 
     const currentState = states.find(s => s.id === selectedState);
-    const isFullscreen = showSearchPlatform || showTravelSafe || showTripMint;
+    const isFullscreen = showSearchPlatform || showTravelSafe || showTripMint || showPlanMyTrip;
 
     return (
         <div className="app">
@@ -82,6 +85,7 @@ function App() {
                 onFaresClick={openSearch}
                 onTravelSafeClick={openTravelSafe}
                 onTripMintClick={openTripMint}
+                onPlanMyTripClick={openPlanMyTrip}
             />
 
             {/* ── Navbar (hidden on fullscreen pages) ── */}
@@ -95,7 +99,9 @@ function App() {
             )}
 
             {/* ── Page Routing ── */}
-            {showTripMint ? (
+            {showPlanMyTrip ? (
+                <PlanMyTrip onBack={() => { setShowPlanMyTrip(false); window.scrollTo(0, 0); }} />
+            ) : showTripMint ? (
                 <TripMint onBack={() => { setShowTripMint(false); window.scrollTo(0, 0); }} />
             ) : showTravelSafe ? (
                 <TravelSafe
